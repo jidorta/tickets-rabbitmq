@@ -1,0 +1,46 @@
+# ===============================
+# Archivos del sistema operativo
+# ===============================
+.DS_Store
+Thumbs.db
+
+# ===============================
+# Archivos de IntelliJ IDEA
+# ===============================
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# ===============================
+# Archivos de compilación
+# ===============================
+target/
+*.class
+
+# ===============================
+# Maven / Gradle
+# ===============================
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+
+# ===============================
+# Logs
+# ===============================
+*.log
+
+# ===============================
+# Docker
+# ===============================
+docker-compose.override.yml
+*.env
+*.pid
+*.sock
+/tmp/*
