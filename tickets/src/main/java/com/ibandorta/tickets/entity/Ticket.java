@@ -23,9 +23,10 @@ public class Ticket {
 
     private String status;
 
-    @Column(nullable= false, updatable = false)
+    @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
+    @Column(name = "update_at")
     private LocalDateTime updateAt;
 
     public void Ticket(){
@@ -34,7 +35,14 @@ public class Ticket {
     }
     @PreUpdate
     public void preUpdate(){
-        this.updateAt = LocalDateTime.now();
+        updateAt = LocalDateTime.now();
+    }
+
+    @PrePersist
+    public void prePersist() {
+        LocalDateTime now = LocalDateTime.now();
+        this.createdAt = now;
+       this.updateAt = now;
     }
 
     public Long getId() {

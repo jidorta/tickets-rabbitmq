@@ -1,8 +1,11 @@
 package com.ibandorta.tickets.controller;
 import com.ibandorta.tickets.dto.TicketDTO;
-import com.ibandorta.tickets.TicketRepository;
+
 import com.ibandorta.tickets.entity.Ticket;
+import com.ibandorta.tickets.repository.TicketRepository;
+import com.ibandorta.tickets.response.ApiResponse;
 import jakarta.validation.Valid;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,23 +13,26 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping ("/api/tickets")
 public class TicketController {
 
+    private final RabbitTemplate rabbitTemplate;
+
     private final TicketRepository ticketRepository;
 
-    public TicketController(TicketRepository ticketRepository){
+    public TicketController(RabbitTemplate rabbitTemplate, TicketRepository ticketRepository){
+        this.rabbitTemplate = rabbitTemplate;
         this.ticketRepository = ticketRepository;
     }
 
     @PostMapping
-    public ResponseEntity<Ticket> createTicket(@Valid @RequestBody TicketDTO ticketDTO){
+    public ResponseEntity<ApiResponse<TicketDTO>> createTicket(@Valid @RequestBody TicketDTO ticketDTO){
 
-        //Mapeo simple DTO -> Entity
-        Ticket ticket = new Ticket();
-        ticket.setTitle(ticketDTO.title());
-        ticket.setDescription(ticketDTO.description());
+        rabbitTemplate.convertAndSend("tickets-queue", ticketDTO);
 
-        //Guardamos en la base de datos
-        Ticket savedTicket = ticketRepository.save(ticket);
+        ApiResponse<TicketDTO> response = new ApiResponse<>(
+                "OK",
+                "Ticket enaviado a cola",
+                ticketDTO
+        );
 
-        return ResponseEntity.ok(savedTicket);
+        return ResponseEntity.ok(response);
     }
 }

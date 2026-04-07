@@ -1,7 +1,9 @@
 package com.ibandorta.tickets.service;
 
 
+import com.ibandorta.tickets.dto.TicketDTO;
 import com.ibandorta.tickets.entity.Ticket;
+import com.ibandorta.tickets.mapper.TicketMapper;
 import com.ibandorta.tickets.repository.TicketRepository;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +20,8 @@ public class TicketService {
     }
 
     //Crear un ticket
-    public Ticket createTicket(Ticket ticket){
-        ticket.setStatus("CREATED");
+    public Ticket createTicket(TicketDTO dto){
+      Ticket ticket = TicketMapper.toEntity(dto);
         return ticketRepository.save(ticket);
     }
 
@@ -37,7 +39,7 @@ public class TicketService {
     //Actualizar un ticket (opcional)
     public Ticket updateTicket(Ticket ticket){
         if (!ticketRepository.existsById(ticket.getId())){
-            throw  new RuntimeException(("Ticket no encontrado: " ticket.getId()))
+            throw  new RuntimeException(("Ticket no encontrado: " + ticket.getId()));
         }
         return ticketRepository.save(ticket);
     }
