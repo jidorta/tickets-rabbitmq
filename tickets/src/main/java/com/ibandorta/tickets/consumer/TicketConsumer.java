@@ -1,25 +1,24 @@
-package com.ibandorta.tickets.listener;
+package com.ibandorta.tickets.consumer;
 
-import com.ibandorta.tickets.config.RabbitConfig;
+
 import com.ibandorta.tickets.dto.TicketDTO;
-import com.ibandorta.tickets.entity.Ticket;
 import com.ibandorta.tickets.service.TicketService;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TicketListener {
+public class TicketConsumer {
 
     private final TicketService ticketService;
 
-    public TicketListener(TicketService ticketService){
+    public TicketConsumer(TicketService ticketService) {
         this.ticketService = ticketService;
     }
 
-    @RabbitListener(queues = RabbitConfig.QUEUE_NAME)
+    @RabbitListener(queues = "tickets-queue")
     public void receiveTicket(TicketDTO ticketDTO){
-        //Lo envía al service para guardarlo
         ticketService.createTicket(ticketDTO);
-        System.out.println("Ticket recibido: "  + ticketDTO.title());
+        System.out.println ("Ticket procesado: " + ticketDTO);
+
     }
 }

@@ -5,6 +5,7 @@ import com.ibandorta.tickets.dto.TicketDTO;
 import com.ibandorta.tickets.entity.Ticket;
 import com.ibandorta.tickets.mapper.TicketMapper;
 import com.ibandorta.tickets.repository.TicketRepository;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,11 +13,13 @@ import java.util.List;
 @Service
 public class TicketService {
 
+
     private final TicketRepository ticketRepository;
 
-
     public TicketService(TicketRepository ticketRepository){
+
         this.ticketRepository = ticketRepository;
+
     }
 
     //Crear un ticket
