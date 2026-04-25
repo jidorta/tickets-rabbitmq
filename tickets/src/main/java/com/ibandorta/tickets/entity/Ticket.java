@@ -21,6 +21,7 @@ public class Ticket {
     @Column(length = 1000)
     private String description;
 
+    @Enumerated(EnumType.STRING)
     private String status;
 
     @Column(name = "created_at", nullable = false)
@@ -44,6 +45,7 @@ public class Ticket {
         this.createdAt = now;
        this.updateAt = now;
     }
+
 
     public Long getId() {
         return id;

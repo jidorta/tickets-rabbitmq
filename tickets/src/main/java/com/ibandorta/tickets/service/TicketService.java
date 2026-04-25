@@ -1,6 +1,7 @@
 package com.ibandorta.tickets.service;
 
 
+import com.ibandorta.tickets.Enum.TickectStatus;
 import com.ibandorta.tickets.dto.TicketDTO;
 import com.ibandorta.tickets.entity.Ticket;
 import com.ibandorta.tickets.mapper.TicketMapper;
@@ -25,6 +26,7 @@ public class TicketService {
     //Crear un ticket
     public Ticket createTicket(TicketDTO dto){
       Ticket ticket = TicketMapper.toEntity(dto);
+      ticket.setStatus("OPEN");
         return ticketRepository.save(ticket);
     }
 
