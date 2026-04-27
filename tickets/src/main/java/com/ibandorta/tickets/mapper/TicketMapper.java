@@ -9,7 +9,7 @@ public class TicketMapper {
         Ticket ticket = new Ticket();
         ticket.setTitle(dto.title());
         ticket.setDescription(dto.description());
-        ticket.setStatus("CREATED");
+        ticket.setStatus(dto.status());
         return ticket;
     }
 }

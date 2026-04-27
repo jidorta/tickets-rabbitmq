@@ -2,7 +2,10 @@ package com.ibandorta.tickets.consumer;
 
 
 import com.ibandorta.tickets.dto.TicketDTO;
-import com.ibandorta.tickets.service.TicketService;
+import com.ibandorta.tickets.dto.TicketRequestDTO;
+import com.ibandorta.tickets.entity.Ticket;
+import com.ibandorta.tickets.messaging.consumer.TicketConsumer;
+import com.ibandorta.tickets.service.impl.TicketServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -16,7 +19,7 @@ import static org.mockito.Mockito.verify;
 public class TicketConsumerTest {
 
     @Mock
-    private TicketService ticketService;
+    private TicketServiceImpl ticketService;
 
     @InjectMocks
     private TicketConsumer ticketConsumer;
@@ -24,10 +27,10 @@ public class TicketConsumerTest {
     @Test
     void shouldProcessTicketFromQueue(){
 
-        TicketDTO dto = new TicketDTO("Test title", "Test description");
-        ticketConsumer.receiveTicket(dto);
+        TicketRequestDTO ticketdto = new TicketRequestDTO("Test title", "Test description");
+        ticketConsumer.consume(ticketdto);
 
-        verify(ticketService).createTicket(any(TicketDTO.class));
+        verify(ticketService).createTicket(any(TicketRequestDTO.class));
 
     }
 }

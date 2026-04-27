@@ -1,7 +1,9 @@
 package com.ibandorta.tickets.service;
 import com.ibandorta.tickets.dto.TicketDTO;
+import com.ibandorta.tickets.dto.TicketRequestDTO;
 import com.ibandorta.tickets.entity.Ticket;
 import com.ibandorta.tickets.repository.TicketRepository;
+import com.ibandorta.tickets.service.impl.TicketServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -24,17 +26,18 @@ public class TicketServiceTest {
     private RabbitTemplate rabbitTemplate;
 
     @InjectMocks
-    private TicketService ticketService;
+    private TicketServiceImpl ticketService;
 
     @Test
     void shouldCreateTicketAndSendToQueue(){
 
         //GIVEN
-        TicketDTO dto = new TicketDTO("Test title","Test description");
+        TicketRequestDTO dto = new TicketRequestDTO("Test title","Test description");
 
         Ticket savedTicket = new Ticket();
         savedTicket.setTitle("Test title");
         savedTicket.setDescription("Test description");
+        savedTicket.setStatus(("PENDING"));
 
         when(ticketRepository.save(any(Ticket.class)))
                 .thenReturn(savedTicket);
