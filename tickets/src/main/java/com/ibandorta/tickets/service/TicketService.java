@@ -1,58 +1,16 @@
 package com.ibandorta.tickets.service;
 
-
-import com.ibandorta.tickets.Enum.TickectStatus;
-import com.ibandorta.tickets.dto.TicketDTO;
+import com.ibandorta.tickets.dto.TicketRequestDTO;
 import com.ibandorta.tickets.entity.Ticket;
-import com.ibandorta.tickets.mapper.TicketMapper;
-import com.ibandorta.tickets.repository.TicketRepository;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-public class TicketService {
+public interface TicketService {
 
+    Ticket createTicket(TicketRequestDTO dto);
 
-    private final TicketRepository ticketRepository;
+    List<Ticket> getAllTickets();
 
-    public TicketService(TicketRepository ticketRepository){
-
-        this.ticketRepository = ticketRepository;
-
-    }
-
-    //Crear un ticket
-    public Ticket createTicket(TicketDTO dto){
-      Ticket ticket = TicketMapper.toEntity(dto);
-      ticket.setStatus("OPEN");
-        return ticketRepository.save(ticket);
-    }
-
-    //Listar todos los tickects
-    public List<Ticket> getAllTickets(){
-        return ticketRepository.findAll();
-    }
-
-    //Obtener un ticket por ID
-    public Ticket getTicketById(Long id){
-        return ticketRepository.findById(id)
-                .orElseThrow(()-> new RuntimeException("Tickets no encontrado: " + id));
-    }
-
-    //Actualizar un ticket (opcional)
-    public Ticket updateTicket(Ticket ticket){
-        if (!ticketRepository.existsById(ticket.getId())){
-            throw  new RuntimeException(("Ticket no encontrado: " + ticket.getId()));
-        }
-        return ticketRepository.save(ticket);
-    }
-
-    //Eliminar un ticket (opcional)
-    public void deleteTicket(Long id){
-        ticketRepository.deleteById(id);
-    }
-
+    Ticket getTicketById(Long id);
 
 }

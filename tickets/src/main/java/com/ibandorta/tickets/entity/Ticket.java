@@ -1,6 +1,7 @@
 package com.ibandorta.tickets.entity;
 
 
+import com.ibandorta.tickets.Enum.TickectStatus;
 import jakarta.persistence.*;
 
 import java.lang.annotation.Repeatable;
@@ -22,13 +23,21 @@ public class Ticket {
     private String description;
 
     @Enumerated(EnumType.STRING)
-    private String status;
+    private TickectStatus status;
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
     @Column(name = "update_at")
     private LocalDateTime updateAt;
+
+    public Ticket() {
+    }
+
+    public Ticket(String title, String description) {
+        this.title = title;
+        this.description = description;
+    }
 
     public void Ticket(){
         this.createdAt = LocalDateTime.now();
@@ -46,6 +55,13 @@ public class Ticket {
        this.updateAt = now;
     }
 
+    public TickectStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(TickectStatus status) {
+        this.status = status;
+    }
 
     public Long getId() {
         return id;
@@ -87,13 +103,7 @@ public class Ticket {
         this.updateAt = updateAt;
     }
 
-    public String getStatus() {
-        return status;
-    }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
 
     @Override
     public boolean equals(Object o){
@@ -117,4 +127,6 @@ public class Ticket {
                 ", status='" + status + '\'' +
                 '}';
     }
+
+
 }
