@@ -59,6 +59,6 @@ Validación del flujo completo (API → RabbitMQ → BD)
 Se irán añadiendo mejoras como:
 
 Dockerización
-H2
+Postgresql
 Manejo de errores en consumidores
 Reintentos de mensajes
