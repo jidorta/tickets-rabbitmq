@@ -1,64 +1,46 @@
-Ticket System - Spring Boot + RabbitMQ
-🚀 Descripción
+# 🎫 Ticket Management System
 
-Proyecto backend desarrollado con Java + Spring Boot, que implementa un sistema de gestión de tickets con arquitectura asíncrona utilizando RabbitMQ.
+Aplicación backend desarrollada en Java con Spring Boot para la gestión de tickets, implementando comunicación asíncrona mediante RabbitMQ y persistencia en PostgreSQL.
 
-El objetivo es simular un flujo real de procesamiento desacoplado como en sistemas distribuidos modernos.
+---
 
-🧱 Arquitectura
+## 🚀 Tecnologías utilizadas
 
-El flujo del sistema es el siguiente:
+- Java 11+
+- Spring Boot
+- Spring Data JPA
+- RabbitMQ
+- PostgreSQL
+- Maven
+- Docker (opcional)
 
-Cliente (POST API)
-        ↓
-Controller
-        ↓
-RabbitMQ (Queue)
-        ↓
-Consumer
-        ↓
-Service
-        ↓
-Base de datos
-⚙️ Tecnologías utilizadas
-Java 23+
-Spring Boot
-Spring Web
-Spring Data JPA
-RabbitMQ
-H2 Database / PostgreSQL (según entorno)
-JUnit 5
-Mockito
-📡 Endpoints
-Crear ticket
-POST /api/tickets
-Body
-{
-  "title": "Example ticket",
-  "description": "Ticket description"
-}
-🧠 Características principales
+---
 
-✔️ Arquitectura asíncrona con RabbitMQ
-✔️ Consumer para procesamiento de mensajes
-✔️ Persistencia en base de datos
-✔️ Validación de datos con Bean Validation
-✔️ Tests unitarios e integración
+## 📖 Descripción
 
-🧪 Testing
+Este proyecto simula un sistema de gestión de tickets donde los eventos se procesan de forma asíncrona utilizando un sistema de mensajería (RabbitMQ).
 
-El proyecto incluye:
+Permite:
+- Crear tickets
+- Consultar tickets
+- Procesar eventos mediante colas
+- Persistir la información en base de datos PostgreSQL
 
-Tests unitarios con Mockito
-Tests de integración con MockMvc
-Validación del flujo completo (API → RabbitMQ → BD)
+---
 
-📌 Estado del proyecto
+## ⚙️ Arquitectura
 
-🟡 En desarrollo continuo
-Se irán añadiendo mejoras como:
+El sistema se basa en una arquitectura desacoplada mediante mensajería:
 
-Dockerización
-H2
-Manejo de errores en consumidores
-Reintentos de mensajes
+- **API REST (Producer)**: expone endpoints para crear y consultar tickets
+- **RabbitMQ**: gestiona la comunicación asíncrona
+- **Consumer**: procesa los mensajes de la cola
+- **PostgreSQL**: almacenamiento persistente de datos
+
+---
+
+## 🔌 Endpoints principales
+
+### Crear ticket
+```http
+POST /tickets
